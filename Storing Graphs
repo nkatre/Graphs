@@ -1,3 +1,6 @@
+This File contains 2 questions. Please go through both of them and also their source links
+
+
 Source: http://stackoverflow.com/questions/12188887/using-a-map-for-a-graph
 
 Question -> Hi I'm going about implementing a Graph data structure for a course (the graph isn't part of the requirement, I've chosen to use it to approach the problem) and my first thought was to implement it using an adjacency list, because that requires less memory, and I don't expect to have that many edges in my graph.
