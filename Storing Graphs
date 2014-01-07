@@ -1,0 +1,61 @@
+Source: http://stackoverflow.com/questions/12188887/using-a-map-for-a-graph
+
+Question -> Hi I'm going about implementing a Graph data structure for a course (the graph isn't part of the requirement, I've chosen to use it to approach the problem) and my first thought was to implement it using an adjacency list, because that requires less memory, and I don't expect to have that many edges in my graph.
+
+But then it occurred to me. I can implement an adjacency list Graph data structure using a Map (HashMap to be specific). Instead of the list of vertices I'll have a Map of vertices, which then hold a short list of edges to vertices.
+
+This seems to be the way to go for me. But I was wondering if anyone can see any drawbacks that a student such as I might have missed in using a HashMap for this? (unfortunately I recall being very tired whilst we were going over HashMaps...so my knowledge of them is less than all the other data structures I know of.) So I want to be sure.
+
+By the way I'm using Java.
+
+Ans: The two primary ways of representing a graph are:
+
+with the adjacency list (as you mentioned)
+with the adjacency matrix
+Since you will not have too many edges (i.e. the adjacency matrix representing your graph would be sparse), I think your decision to use the list instead of the matrix is a good one since, as you said, it will indeed take up less space since no space is wasted to represent the absent edges. Furthermore, the Map approach seems to be logical, as you can map each Node of your graph to the list of Nodes to which it is connected. Another alternative would be to have each Node object contain, as a data field, the list of nodes to which it is connected. I think either of these approaches could work well. I've summed it up below.
+
+First approach (maintain the map):
+
+Map<Node, Node[]> graph = new HashMap<Node, Node[]>();
+Second approach (data built into Node class):
+
+public class Node {
+    private Node[] adjacentNodes;
+    public Node(Node[] nodes) { adjacentNodes = nodes; }
+    public Node[] adjacentNodes() { return adjacentNodes; }
+}
+
+
+Also one more Answer:
+
+Graphs are traditionally represented either via an adjacency list or an adjacency matrix
+(there are other ways that are optimized for certain graph formats, such as if the node id's 
+are labeled sequentially and/or you know the number of nodes/edges ahead of time, but I won't get 
+into that).
+
+Picking between an adjacency list and an adjacency matrix depends on your needs. Clearly,
+an adjacency matrix will take up more space than an adjacency list (matrix will always take 
+(# of nodes)^2 whereas a list will take (# of nodes + # of edges), but if your graph is "small" then it doesn't really make a difference.
+
+Another concern is how many edges you have (is your graph sparse or dense)? You can find the 
+density of your graph by taking the # of edges you have and dividing it by:
+
+n(n-1) / 2
+
+Where "n" is the number of nodes of the graph. The above equation finds the total # of
+possible edges in an "n" node UNDIRECTED graph. If the graph is directed, remove the " / 2".
+
+Something else to think of is if efficient edge membership is important. An adjacency
+list can detect edge membership easily (O(1)) since it's just an array lookup - for an adjacency
+list if the "list" is stored as something other than a HashSet it will be much slower since you 
+will have to look through the entire edgelist. Or maybe you keep the edgelist's sorted and you
+can just do a binary search, but then edge insertion takes longer. Maybe your graph is very sparse,
+and adjacency matrix is using too much memory, so you have to use an adjacency list. Lot's of things
+to think about.
+
+There's a lot more concerns that may relate to your project, I just list a few.
+
+In general, assuming your graph isn't very complex or "big" (in the sense of millions of nodes),
+a HashMap where the key is the node ID and the value is a Set or some other collection of node ID's
+indicating neighbors of the key node is fine, I've done this for 400,000+ node graphs on an 8gb machine.
+A HashMap based implementation will probably be easiest to implement.
