@@ -65,14 +65,3 @@ A HashMap based implementation will probably be easiest to implement.
 
 
 
-Another Question -> How would you represent a graph with million nodes ?
-Source: http://www.careercup.com/question?id=5142389660319744
-Answer: Before beginning the first question is how do we want the representation to be..is it 
-one time use or used multiple times. Is it to be constructed at real time or stored and retrieved 
-at run time. 
-
-Assuming it needs to be persisted and flexible for updates, here is one approach. 
-Identity clusters in the points based on some distance function (which might not be linear).
-All the points in a cluster can be represented using an adjacency matrix approach and those edges
-between the clusters can be represented using a hashmap. Clearly this approach depends on the type
-of data objects and the type of clustering method adopted.
